@@ -15,5 +15,5 @@ class VueG : public Gtk::Window, public Observateur<double> {
   public:
     VueG();
     virtual ~VueG();
-
+    vfvnfkvkfjvfnk
 };
