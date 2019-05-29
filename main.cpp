@@ -3,7 +3,11 @@
 #include "Controleur.hpp"
 #include "VueGraphique.hpp"
 
+
 int main(int argc, char *argv[]){
 
-  return 1;
+	auto app= Gtk::Application::create(argc,argv);
+	
+	return app->run(* new VueG());
+		
 }

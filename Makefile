@@ -18,6 +18,7 @@ VueGraphique.o: VueGraphique.hpp
 Controleur.o: Controleur.hpp
 Observable.o: Observable.hpp
 Observateur.o: Observateur.hpp
+drawArea.o: drawArea.hpp
 
 # le lien entre .o et .c
 %.o: %.cpp
