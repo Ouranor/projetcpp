@@ -1,15 +1,17 @@
-avance 50
+Aide:
 
-droite 90
+	avance 50
 
-avance 50
+	droite 90
 
-droite 90
+	avance 50
 
-avance 50
+	droite 90
 
-droite 90
+	avance 50
 
-avance 50
+	droite 90
 
-droite 90
+	avance 50
+
+	droite 90
