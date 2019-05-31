@@ -1,6 +1,6 @@
 GTKMM = `pkg-config gtkmm-3.0 --cflags --libs`
 CC = g++ # le compilateur a utiliser
-CFLAGS = $(GTKMM) -Wall
+CFLAGS = $(GTKMM) -Wall -std=c++14
 LDFLAGS = $(GTKMM)
 SRC = Controleur.cpp VueGraphique.cpp Modele.cpp drawArea.cpp main.cpp # les fichiers sources
 PROG = projet  # nom de l’exécutable
