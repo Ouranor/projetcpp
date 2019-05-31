@@ -8,6 +8,11 @@ int main(int argc, char *argv[]){
 
 	auto app= Gtk::Application::create(argc,argv);
 	
-	return app->run(* new VueG());
+	Modele *m= new Modele();
+	VueG *vg=new VueG();
+	Controleur *c=new Controleur(m,vg);
+	m->addObservateur(vg);
+	
+	return app->run(*vg);
 		
 }

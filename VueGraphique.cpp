@@ -13,21 +13,28 @@
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
+# include <gtkmm.h>
 #include <gtkmm/widget.h>
-
+# include <cairomm/context.h>
+#include <gtkmm/drawingarea.h>
 #include "Controleur.hpp"
 #include "VueGraphique.hpp"
 #include "drawArea.hpp"
+
 
 
 VueG::VueG():
 		boxTop(Gtk::ORIENTATION_HORIZONTAL),
 		box_gauche(Gtk::ORIENTATION_VERTICAL),box_gauche_haut(Gtk::ORIENTATION_VERTICAL),
 		box_droit(Gtk::ORIENTATION_VERTICAL),box_droit_bas(Gtk::ORIENTATION_VERTICAL),
-	bEnter("enter"), img_title("tortue.png")
+		bEnter("enter"), img_title("tortue.png")
 	{
+
+	//this->set_title("TEST");
+	//this->add(myDrawArea);
+
 	
-		
+	std::cout<<"Vuegraphique "<<std::endl;
 	//box_gauche_haut
 	box_gauche_haut.set_size_request(200,100);
 	
@@ -76,12 +83,38 @@ VueG::VueG():
 	boxTop.set_border_width(30);
 	
 	add(boxTop);
-	show_all_children ();
+	show_all_children();
+	//myDrawArea.show();
 
 	}
 
-void VueG::update(double d){}
+void VueG::update(double d){
+	/* mise à jours vennant de l'observable */
+	
+	setDraw();
+}
 
+void VueG:: setDraw(){
+	Cairo::RefPtr<Cairo::Context> myContext=this->myDrawArea.get_window()->create_cairo_context();
+	this->myDrawArea.on_draw(myContext);
+	std::cout<<"draw"<<std ::endl;
+	
+	//set_draw_func(sigc::mem_fun(*this,&MyArea::on_draw));
+	//Cairo::RefPtr<Cairo::Context> myContext=this->myDrawArea.get_surface()->create_cairo_context();
+	//on_draw(myContext);
+}
 VueG::~VueG(){}
+
+//Override default signal handler:
+//bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
+
+void VueG::addDrawCommandListener(Controleur *c){
+	//bEnter.signal_clicked().connect(sigc::mem_fun(*c, &Controleur::on_button_enter));
+	
+	bEnter.signal_clicked().connect(sigc::mem_fun(*c, &Controleur::on_button_enter));
+	//bEnter.signal_clicked().connect(sigc::ptr_fun(&Controleur::on_button_enter));
+	//bEnter.signal_clicked().connect(sigc::mem_fun(*c,&Controleur::on_button_enter));
+	
+}
 
 

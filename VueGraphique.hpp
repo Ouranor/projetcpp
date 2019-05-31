@@ -14,12 +14,15 @@
 #include <iostream>
 #include <cstdlib>
 #include <gtkmm/widget.h>
+# include <gtkmm.h>
+# include <cairomm/context.h>
 
 #include "drawArea.hpp"
 #include "Controleur.hpp"
 
-using namespace std;
 
+using namespace std;
+class Controleur;
 
 class VueG:public Gtk::Window , public Observateur<double>{
 	private:
@@ -46,6 +49,8 @@ class VueG:public Gtk::Window , public Observateur<double>{
 		VueG();
 		virtual ~VueG();
 		void update(double d) override;
+		void setDraw();
+		void addDrawCommandListener(Controleur *c);
 
 
 };
