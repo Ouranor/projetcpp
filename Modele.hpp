@@ -6,11 +6,11 @@
 
 
 class Modele : public Observable<double> {
-  
+
   private:
-  	std::string command;
-  	std::string direction;
-  	double drawLenght;
+  	std::string _command;
+  	std::string _direction;
+  	double _drawLenght;
 
   public:
   	void commandtoDraw();

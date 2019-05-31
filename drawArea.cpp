@@ -4,11 +4,8 @@
 #include "drawArea.hpp"
 # include <iostream>
 
-MyArea::MyArea()
-: m_fix (0)
+MyArea::MyArea() :  m_fix (0)
 {
-
-
   set_size_request (400, 500);
 }
 
@@ -19,8 +16,8 @@ bool MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
   Gtk::Allocation allocation = get_allocation();
   const int width = allocation.get_width();
   const int height = allocation.get_height();
- 
-  
+
+
   cr->set_line_width(1.0);
 
   // draw one line, every two pixels
@@ -28,18 +25,17 @@ bool MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
   // since each one will occupy two pixels (width)
    cr->move_to(0, 0);
    cr->line_to(0, height);
-   
-  	std::cout <<" essai ligne "<< std::endl;
+
+  std::cout <<" essai ligne "<< std::endl;
    cr->move_to(0, 0);
    cr->line_to(width,0);
-   
+
    cr->move_to(0, height);
    cr->line_to(width, height);
-   
+
    cr->move_to(width,0);
    cr->line_to(width, height);
-   
-   
- cr->stroke();
-  return true;
+
+   cr->stroke();
+   return true;
 }
