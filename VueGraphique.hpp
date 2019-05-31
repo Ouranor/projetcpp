@@ -1,5 +1,5 @@
-#ifndef VUEG_HPP
-#define VUEG_HPP
+#pragma once
+
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
 #include <gtkmm/image.h>
@@ -14,91 +14,38 @@
 #include <iostream>
 #include <cstdlib>
 #include <gtkmm/widget.h>
-using namespace std;
+
 #include "drawArea.hpp"
+#include "Controleur.hpp"
 
-class VueG:public Gtk::Window {
-private:
-
-	Gtk::Box boxTop ;
-	Gtk::Box box_gauche;
-	Gtk::Box box_gauche_haut;
-	Gtk::Box box_droit ;
-	Gtk::Box box_droit_bas ;
-	
-	Gtk::Image img_title ;
-	Gtk::Entry entry;
-	MyArea drawArea;
-	
-	//affiche aide text
-	Gtk::TextView aideText;
-	Glib::RefPtr<Gtk::TextBuffer> textBuffer1;
-	string line;
+using namespace std;
 
 
-public :
+class VueG:public Gtk::Window , public Observateur<double>{
+	private:
 
-VueG() : boxTop(Gtk::ORIENTATION_HORIZONTAL),
-		box_gauche(Gtk::ORIENTATION_VERTICAL),box_gauche_haut(Gtk::ORIENTATION_VERTICAL),
-		box_droit(Gtk::ORIENTATION_VERTICAL),box_droit_bas(Gtk::ORIENTATION_VERTICAL),
-		img_title("tortue.png")
-	{
+		Gtk::Box boxTop ;
+		Gtk::Box box_gauche;
+		Gtk::Box box_gauche_haut;
+		Gtk::Box box_droit ;
+		Gtk::Box box_droit_bas ;
 	
-		
-	//box_gauche_haut
-	box_gauche_haut.set_size_request(200,100);
+		Gtk::Image img_title ;
+  		Gtk::Button bEnter;
+		Gtk::Entry entry;
+		MyArea myDrawArea;
 	
-	//pour afficher les text d'aide dans box_gauche_bas
-	
-	textBuffer1=Gtk::TextBuffer::create();
-	ifstream in("aidefile.txt");
-	if(in.is_open()){
-		while(!in.eof()){
-		getline(in,line);
-		cout<<line<<endl;
-		textBuffer1->insert_at_cursor("\t");
-		textBuffer1->insert_at_cursor(line);
-		textBuffer1->insert_at_cursor("\n");		
-		}
-		in.close();
-	}
-	aideText.set_buffer(textBuffer1);
-	aideText.set_border_width(20);
-	//box_gauche
-	//box_gauche.pack_start(box_gauche_haut,Gtk::PACK_SHRINK);	
-	box_gauche.pack_start(img_title,Gtk::PACK_SHRINK);
-	box_gauche.pack_start(aideText,Gtk::PACK_SHRINK);
-	box_gauche.set_size_request(200,800);
-	box_gauche.set_border_width(20);
-	//box_droit_bas
-	box_droit_bas.pack_start(drawArea,Gtk::PACK_SHRINK);
-	box_droit_bas.set_size_request(400,400);
-	box_droit_bas.set_border_width(30);
-	// l’entrée
-	entry.set_max_length(50);
-	entry.set_text("Enter");
-	entry.select_region(0, entry.get_text_length());
-	
-	//box_droit
-	box_droit.pack_start(entry,Gtk::PACK_SHRINK);
-	box_droit.pack_start(box_droit_bas,Gtk::PACK_SHRINK);
-	box_droit.set_size_request(500,800);
-	box_droit.set_border_width(30);
-	
-	//boxTop
-	boxTop.pack_start(box_gauche,Gtk::PACK_SHRINK);
-	boxTop.pack_start(box_droit,Gtk::PACK_SHRINK);
-	boxTop.set_size_request(1000,1000);
-	boxTop.set_border_width(30);
-	
-	add(boxTop);
-	show_all_children ();
-}
-// le destructeur
-virtual ~VueG(){}
+		//affiche aide text
+		Gtk::TextView aideText;
+		Glib::RefPtr<Gtk::TextBuffer> textBuffer1;
+		string line;
+
+
+	public :
+
+		VueG();
+		virtual ~VueG();
+		void update(double d) override;
 
 
 };
-
-
-#endif

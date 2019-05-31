@@ -2,7 +2,7 @@ GTKMM = `pkg-config gtkmm-3.0 --cflags --libs`
 CC = g++ # le compilateur a utiliser
 CFLAGS = $(GTKMM) -Wall
 LDFLAGS = $(GTKMM)
-SRC = Controleur.cpp VueGraphique.cpp Modele.cpp main.cpp # les fichiers sources
+SRC = Controleur.cpp VueGraphique.cpp Modele.cpp drawArea.cpp main.cpp # les fichiers sources
 PROG = projet  # nom de l’exécutable
 OBJS =  $(SRC:.cpp=.o) # les .o qui en d ́ecoulent
 .SUFFIXES: .cpp .o    # lien entre les suffixes
@@ -16,9 +16,9 @@ $(PROG): $(OBJS)
 Modele.o: Modele.hpp
 VueGraphique.o: VueGraphique.hpp
 Controleur.o: Controleur.hpp
+drawArea.o: drawArea.hpp
 Observable.o: Observable.hpp
 Observateur.o: Observateur.hpp
-drawArea.o: drawArea.hpp
 
 # le lien entre .o et .c
 %.o: %.cpp

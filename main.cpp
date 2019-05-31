@@ -2,7 +2,7 @@
 #include "Modele.hpp"
 #include "Controleur.hpp"
 #include "VueGraphique.hpp"
-
+#include "drawArea.hpp"
 
 int main(int argc, char *argv[]){
 
