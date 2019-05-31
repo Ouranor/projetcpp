@@ -21,6 +21,9 @@
 #include "VueGraphique.hpp"
 #include "drawArea.hpp"
 
+#include <string>
+
+#include <gtkmm/button.h>
 
 
 VueG::VueG():
@@ -30,8 +33,7 @@ VueG::VueG():
 		bEnter("enter"), img_title("tortue.png")
 	{
 
-	//this->set_title("TEST");
-	//this->add(myDrawArea);
+	
 
 	
 	std::cout<<"Vuegraphique "<<std::endl;
@@ -90,8 +92,10 @@ VueG::VueG():
 
 void VueG::update(double d){
 	/* mise à jours vennant de l'observable */
-	
-	setDraw();
+	/*Cairo::RefPtr<Cairo::Context> myContext=this->myDrawArea.get_window()->create_cairo_context();
+	setDraw(&myContext);
+	*/
+	this->setDraw();
 }
 
 void VueG:: setDraw(){
@@ -102,7 +106,11 @@ void VueG:: setDraw(){
 	//set_draw_func(sigc::mem_fun(*this,&MyArea::on_draw));
 	//Cairo::RefPtr<Cairo::Context> myContext=this->myDrawArea.get_surface()->create_cairo_context();
 	//on_draw(myContext);
+
+
 }
+
+
 VueG::~VueG(){}
 
 //Override default signal handler:
@@ -112,8 +120,7 @@ void VueG::addDrawCommandListener(Controleur *c){
 	//bEnter.signal_clicked().connect(sigc::mem_fun(*c, &Controleur::on_button_enter));
 	
 	bEnter.signal_clicked().connect(sigc::mem_fun(*c, &Controleur::on_button_enter));
-	//bEnter.signal_clicked().connect(sigc::ptr_fun(&Controleur::on_button_enter));
-	//bEnter.signal_clicked().connect(sigc::mem_fun(*c,&Controleur::on_button_enter));
+	
 	
 }
 
