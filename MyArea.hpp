@@ -7,6 +7,7 @@
 
 class MyArea : public Gtk::DrawingArea
 {
+
 	
 private:
 	double m_fix;
@@ -26,4 +27,3 @@ public:
 
 
 };
-

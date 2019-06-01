@@ -4,6 +4,7 @@
 #include "MyArea.hpp"
 # include <iostream>
 
+
 MyArea::MyArea(double fix,int width,int heidth) :  m_fix (fix),m_width(width),m_heidth(heidth)
 {
 
@@ -11,12 +12,14 @@ MyArea::MyArea(double fix,int width,int heidth) :  m_fix (fix),m_width(width),m_
 
 
   set_size_request (this->m_width,this->m_heidth);
- 
+
+
 }
 
 MyArea::~MyArea(){}
 
 bool MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
+
 { 
   Gtk::Allocation allocation = get_allocation();
   const int width = allocation.get_width();
@@ -24,21 +27,20 @@ bool MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
   std ::cout << width << std::endl;
   std ::cout << " height =" << height << std::endl;
 
-  
-
-
-
   cr->set_line_width(1.0);
   
 
   // draw one line, every two pixels
   // without the 'fix', you won't notice any space between the lines,
   // since each one will occupy two pixels (width)
+
   
    cr->move_to(0, 0);
    cr->line_to(0, height);
 
   std::cout <<" essai ligne "<< std::endl;
+
+  
    cr->move_to(0, 0);
    cr->line_to(width,0);
 
@@ -47,6 +49,7 @@ bool MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
    cr->move_to(width,0);
    cr->line_to(width, height);
+
 
 
    cr->stroke();
@@ -61,3 +64,5 @@ double MyArea::getHeight() const  {
 double MyArea::getWidth() const {
   return this->m_width;
 }
+
+ 

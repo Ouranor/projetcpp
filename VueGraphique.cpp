@@ -20,10 +20,11 @@ VueG::VueG() :
 		boxTop(Gtk::ORIENTATION_HORIZONTAL),
 		box_gauche(Gtk::ORIENTATION_VERTICAL),box_gauche_haut(Gtk::ORIENTATION_VERTICAL),
 		box_droit(Gtk::ORIENTATION_VERTICAL),box_droit_bas(Gtk::ORIENTATION_VERTICAL),
-		bEnter("Enter"), img_title("tortue.png"),myDrawArea(0.0,400,500)
-	{
 
-	
+		bEnter("Enter"), img_title("tortue.png"),myDrawArea(0.0,400,500)
+{
+
+
 
 
 	std::cout<<"Vuegraphique "<<std::endl;
@@ -83,9 +84,9 @@ VueG::VueG() :
 	}
 /* mise à jours vennant de l'observable */
 void VueG::update(double d){
-	
-	
-	
+
+
+
 	this->setDraw();
 
 	setDraw();
@@ -124,9 +125,9 @@ void VueG::addDrawCommandListener(Controleur *c){
 
 	bEnter.signal_clicked().connect(sigc::mem_fun(*c, &Controleur::on_button_enter));
 
-	
-	
 
-	
+
+
+
 
 }
