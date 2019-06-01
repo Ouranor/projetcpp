@@ -38,7 +38,7 @@ bool MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
 
    cr->move_to(0, 0);
-   cr->line_to(width,0);
+   cr->line_to(height,0);
 
    cr->move_to(0, height);
    cr->line_to(width, height);
