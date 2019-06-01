@@ -20,8 +20,7 @@ VueG::VueG() :
 		boxTop(Gtk::ORIENTATION_HORIZONTAL),
 		box_gauche(Gtk::ORIENTATION_VERTICAL),box_gauche_haut(Gtk::ORIENTATION_VERTICAL),
 		box_droit(Gtk::ORIENTATION_VERTICAL),box_droit_bas(Gtk::ORIENTATION_VERTICAL),
-
-		bEnter("Enter"), img_title("tortue.png"),myDrawArea(0.0,400,500)
+		img_title("tortue.png"),bEnter("Enter"),myDrawArea(0.0,400,500)
 {
 
 
@@ -85,17 +84,18 @@ VueG::VueG() :
 /* mise à jours vennant de l'observable */
 void VueG::update(double d){
 
-
-
 	this->setDraw();
 
 	setDraw();
 
 }
 /* Le modele notifie l'observable puis celui-ci fais un update à la vue graphique , la fonction setDraw est alors appele */
-/* Ici setDraw est uniquement exemple d'utilisation de tracé d'une ligne rouge dans la zone de dessins */ 
+/* Ici setDraw est uniquement exemple d'utilisation de tracé d'une ligne rouge dans la zone de dessins */
 void VueG:: setDraw(){
 	Cairo::RefPtr<Cairo::Context> myContext=this->get_window()->create_cairo_context();
+
+	const int height = this->myDrawArea.getHeight();
+	const int width = this->myDrawArea.getWidth();
 	//myDrawArea
 	//this->myDrawArea.on_draw(myContext);
 	std::cout<<"draw"<<std ::endl;
@@ -103,31 +103,23 @@ void VueG:: setDraw(){
 	//set_draw_func(sigc::mem_fun(*this,&MyArea::on_draw));
 	//Cairo::RefPtr<Cairo::Context> myContext=this->myDrawArea.get_surface()->create_cairo_context();
 	//on_draw(myContext);
-	const int height=this->myDrawArea.getHeight();
-	const int width=this->myDrawArea.getWidth();
+
 	myContext->set_source_rgb(0.8, 0.0, 0.0);
 	myContext->set_line_width(2.0);
 	myContext->move_to(width,height);
-   	myContext->line_to(width, height+width);
-   	myContext->stroke();
+  myContext->line_to(width, height+width);
+  myContext->stroke();
 
 
 }
 
-
-VueG::~VueG(){}
 
 //Override default signal handler:
 //bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
 
 void VueG::addDrawCommandListener(Controleur *c){
 	//bEnter.signal_clicked().connect(sigc::mem_fun(*c, &Controleur::on_button_enter));
-
 	bEnter.signal_clicked().connect(sigc::mem_fun(*c, &Controleur::on_button_enter));
-
-
-
-
-
-
 }
+
+VueG::~VueG(){}
