@@ -111,7 +111,7 @@ void VueG:: setDraw(){
 
 	myContext->move_to(0,0);
   myContext->line_to(width,0);
-  myContext->stroke();
+  myContext->stroke_preserve();
 
 
 }
