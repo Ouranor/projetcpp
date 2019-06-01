@@ -9,7 +9,7 @@
 
 #include "Controleur.hpp"
 #include "VueGraphique.hpp"
-#include "drawArea.hpp"
+#include "MyArea.hpp"
 
 #include <string>
 
@@ -20,7 +20,7 @@ VueG::VueG() :
 		boxTop(Gtk::ORIENTATION_HORIZONTAL),
 		box_gauche(Gtk::ORIENTATION_VERTICAL),box_gauche_haut(Gtk::ORIENTATION_VERTICAL),
 		box_droit(Gtk::ORIENTATION_VERTICAL),box_droit_bas(Gtk::ORIENTATION_VERTICAL),
-		bEnter("Enter"), img_title("tortue.png")
+		bEnter("Enter"), img_title("tortue.png"),myDrawArea(0.0,400,500)
 	{
 
 	
@@ -81,9 +81,9 @@ VueG::VueG() :
 	//myDrawArea.show();
 
 	}
-
+/* mise à jours vennant de l'observable */
 void VueG::update(double d){
-	/* mise à jours vennant de l'observable */
+	
 	
 	
 	this->setDraw();
@@ -91,15 +91,24 @@ void VueG::update(double d){
 	setDraw();
 
 }
-
+/* Le modele notifie l'observable puis celui-ci fais un update à la vue graphique , la fonction setDraw est alors appele */
+/* Ici setDraw est uniquement exemple d'utilisation de tracé d'une ligne rouge dans la zone de dessins */ 
 void VueG:: setDraw(){
-	Cairo::RefPtr<Cairo::Context> myContext=this->myDrawArea.get_window()->create_cairo_context();
-	this->myDrawArea.on_draw(myContext);
+	Cairo::RefPtr<Cairo::Context> myContext=this->get_window()->create_cairo_context();
+	//myDrawArea
+	//this->myDrawArea.on_draw(myContext);
 	std::cout<<"draw"<<std ::endl;
-
+     //myDrawArea
 	//set_draw_func(sigc::mem_fun(*this,&MyArea::on_draw));
 	//Cairo::RefPtr<Cairo::Context> myContext=this->myDrawArea.get_surface()->create_cairo_context();
 	//on_draw(myContext);
+	const int height=this->myDrawArea.getHeight();
+	const int width=this->myDrawArea.getWidth();
+	myContext->set_source_rgb(0.8, 0.0, 0.0);
+	myContext->set_line_width(2.0);
+	myContext->move_to(width,height);
+   	myContext->line_to(width, height+width);
+   	myContext->stroke();
 
 
 }

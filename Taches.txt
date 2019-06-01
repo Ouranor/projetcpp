@@ -1,0 +1,45 @@
+***************Légende****************:
+_Taches Términé: V
+_Tache en fin de réalisation: V--
+_Tache en commencement: X
+_Niveau d'importance des tâche ou fonctionnalité: de I à IIII
+_Niveau de difficulté estimé: de D à DDDD
+_temps estimé : de T à TTTT
+
+
+***************Tâches*****************:
+- Tâche numéro 1:  importance( IIII ) difficulté ( DDD ), temps ( TT)
+	Bien comprendre comment tracer des lignes , pour le moment une lignes aléatoires est tracé dans la zone de dessins, probablement changer le prototype de la methode setDraw dans VueGraphique.cpp pour prendre en argument les cordonnées du début et de fin de la ligne tracé.
+
+************************************************************************************
+_Tâche numéro 2 : importance ( IIII) diffuculté ( D ), temps estimé( TT ) 
+	effectuer un lexique des commande de déplacement de la tortue , ça implique de poser le cahier des charges du jeu, donc primordiale et relativement simple à affectuer.
+exemple probable de commande :
+left 10 10 30 => direction ; taille en pixel du trait ; coordonnée du départ du train 
+( Ceci est uniquement un exemple qui pourrait être réalisé dans un premier temps )
+
+***********************************************************************************
+_Tâche numéro 3: importance ( IIII) ,difficulté ( DDD), temps estimé ( TTT)  FORT DEPENDANCE AC TACHE 2
+	Etablir le modéle (à discuter sur la conversation ) , probablement modifier la CLass Modele, pour traiter le string vennant de la VueGraphique, dans un premier temps il faut donc lire ce string puis ( probablement effectuer des switch case sur chacun des élement du string ), puis effectuer une modification des data contennue dans le modéle. 
+
+***********************************************************************************
+Tâche numéro 4: importance ( IIII) , difficulté ( DDD), temps estimé ( TTT), DEPENDANCE RELATIVE AC TACHE 3
+	A partir du modéle établie en 2 ( ces deux taches sont étroitement liée mais peuvent etre réalisé en paralléel), et à chaque update de l'observable modifié la Vue Graphique en fonction des modification apporté au modéle, clairement il faut dessiner les traits établis par le modéle 
+
+
+***********************************************************************************
+
+Tache numéro 6: Importance ( IIIII) , diff( DDDD) , temps ( TTT), a faire à la suite de  1,2,3,4,5;
+	TEST de toutes les features actuellement achevé, estimation de cette feature :: Mercredi ou jeudi 6 ou 7 !!!!!!!!!!!! 
+
+***********************************************************************************
+Taĉhe numéro 7 : importance ( III) , difficulté ( D), temps estimé ( T) 
+
+	Effectuer des fonctionnalité de sauvegarde ou delete de la zone de dessins effectuer jusqu'a present , probablement un bouton erase 
+
+************************************************************************************
+
+Tâche( ou fonctionnalité/idée ) numéro 8 : importance ( II ), diffuculté ( DDD) , temps estimé ( TTT) 
+	rajouter des lignes de commandes à la fin de la zone de texte entry pour affiner la dessin,
+par exemple largeur du dessins, couleur, style du trait .... 
+

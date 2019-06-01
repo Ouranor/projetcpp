@@ -7,7 +7,7 @@
 #include <gtkmm.h>
 #include <cairomm/context.h>
 
-#include "drawArea.hpp"
+#include "MyArea.hpp"
 #include "Controleur.hpp"
 
 
