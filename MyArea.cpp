@@ -1,8 +1,6 @@
-#include <gtkmm/drawingarea.h>
+#include <iostream>
 
-#include "Modele.hpp"
 #include "MyArea.hpp"
-# include <iostream>
 
 
 MyArea::MyArea(double fix,int width, int height) : m_fix (fix),m_width(width),m_height(height)
@@ -45,7 +43,7 @@ bool MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
    cr->stroke();
    return true;
 }
-//double getHeidth() const
+
 double MyArea::getHeight() const  {
   return this->m_height;
 }

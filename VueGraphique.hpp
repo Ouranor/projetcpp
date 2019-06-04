@@ -1,20 +1,16 @@
 #pragma once
 
-#include <string>
-#include <fstream>
-#include <iostream>
-#include <cstdlib>
 #include <gtkmm.h>
 #include <cairomm/context.h>
 
+#include "Observateur.hpp"
 #include "MyArea.hpp"
-#include "Controleur.hpp"
+#include "Modele.hpp"
 
 
-using namespace std;
 class Controleur;
 
-class VueG:public Gtk::Window , public Observateur<double>{
+class VueG : public Gtk::Window, public Commande, public Observateur<Commande>{
 
 	private:
 
@@ -28,20 +24,24 @@ class VueG:public Gtk::Window , public Observateur<double>{
   	Gtk::Button bEnter;
 		Gtk::Entry entry;
 		MyArea myDrawArea;
+		Cairo::RefPtr<Cairo::Context> _myContext;
 
 		//affiche aide text
 		Gtk::TextView aideText;
 		Glib::RefPtr<Gtk::TextBuffer> textBuffer1;
-		string line;
-
+		std::string line;
 
 	public :
 
 		VueG();
 		virtual ~VueG();
-		void update(double d) override;
+		void update(Commande) override;
 		void setDraw();
-		void addDrawCommandListener(Controleur *c);
+		void setContext();
+
+		void addDrawCommandListener(Controleur*);
+		Cairo::RefPtr<Cairo::Context> getContext() const;
+		std::string getEntry() const;
 
 
 };

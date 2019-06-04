@@ -1,8 +1,5 @@
 #pragma once
 
-
-#include "Modele.hpp"
-
 #include <gtkmm/drawingarea.h>
 
 class MyArea : public Gtk::DrawingArea

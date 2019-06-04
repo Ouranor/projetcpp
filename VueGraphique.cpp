@@ -2,19 +2,11 @@
 #include <iomanip>
 #include <string>
 #include <fstream>
-#include <iostream>
 #include <cstdlib>
-#include <gtkmm.h>
-#include <cairomm/context.h>
+#include <iomanip>
 
-#include "Controleur.hpp"
 #include "VueGraphique.hpp"
-#include "MyArea.hpp"
-
-#include <string>
-
-#include <gtkmm/button.h>
-
+#include "Controleur.hpp"
 
 VueG::VueG() :
 		boxTop(Gtk::ORIENTATION_HORIZONTAL),
@@ -23,9 +15,6 @@ VueG::VueG() :
 		img_title("tortue.png"),bEnter("Enter"),myDrawArea(0.0,500,500)
 {
 
-
-
-
 	std::cout<<"Vuegraphique "<<std::endl;
 	//box_gauche_haut
 	box_gauche_haut.set_size_request(200,100);
@@ -33,11 +22,11 @@ VueG::VueG() :
 	//pour afficher les text d'aide dans box_gauche_bas
 
 	textBuffer1=Gtk::TextBuffer::create();
-	ifstream in("aidefile.txt");
+	std::ifstream in("aidefile.txt");
 	if(in.is_open()){
 		while(!in.eof()){
 			getline(in,line);
-			cout<<line<<endl;
+			std::cout<<line<<std::endl;
 			textBuffer1->insert_at_cursor("\t");
 			textBuffer1->insert_at_cursor(line);
 			textBuffer1->insert_at_cursor("\n");
@@ -75,53 +64,60 @@ VueG::VueG() :
 	boxTop.pack_start(box_droit,Gtk::PACK_SHRINK);
 	boxTop.set_size_request(1000,1000);
 	boxTop.set_border_width(30);
-
 	add(boxTop);
+
 	show_all_children();
-	//myDrawArea.show();
 
 	}
 /* mise à jours vennant de l'observable */
-void VueG::update(double d){
-
-	this->setDraw();
+void VueG::update(Commande CMD){
 
 	setDraw();
 
 }
+
+void VueG::setContext(){
+	this->_myContext = this->myDrawArea.get_window()->create_cairo_context();
+	std::cout << "setContext" << std::endl;
+}
+
+Cairo::RefPtr<Cairo::Context> VueG::getContext() const{
+	return this->_myContext;
+	std::cout << "getContext" << std::endl;
+}
+
+std::string VueG::getEntry() const {
+	Glib::ustring cmdEntry = entry.get_text();
+	std::cout << "getEntry:" << cmdEntry << std::endl;
+	static_cast<std::string>(cmdEntry);
+	return cmdEntry;
+}
+
 /* Le modele notifie l'observable puis celui-ci fais un update à la vue graphique , la fonction setDraw est alors appele */
 /* Ici setDraw est uniquement exemple d'utilisation de tracé d'une ligne rouge dans la zone de dessins */
 void VueG:: setDraw(){
-	Cairo::RefPtr<Cairo::Context> myContext = this->myDrawArea.get_window()->create_cairo_context();
+
+	setContext();
 
 	const int height = this->myDrawArea.getHeight();
 	const int width = this->myDrawArea.getWidth();
-	//myDrawArea
-	//this->myDrawArea.on_draw(myContext);
+
 	std::cout<<"draw"<<std ::endl;
-     //myDrawArea
-	//set_draw_func(sigc::mem_fun(*this,&MyArea::on_draw));
-	//Cairo::RefPtr<Cairo::Context> myContext=this->myDrawArea.get_surface()->create_cairo_context();
-	//on_draw(myContext);
 
-	myContext->set_source_rgb(0.8, 0.0, 0.0);
-	myContext->set_line_width(4.0);
-	myContext->move_to(width,height);
-  myContext->line_to(width,0);
+	this->_myContext->set_source_rgb(0.8, 0.0, 0.0);
+	this->_myContext->set_line_width(4.0);
+	this->_myContext->move_to(width,height);
+  this->_myContext->line_to(width,0);
 
-	myContext->move_to(0,0);
-  myContext->line_to(width,0);
-  myContext->stroke_preserve();
+	this->_myContext->move_to(0,0);
+  this->_myContext->line_to(width,0);
+  this->_myContext->stroke_preserve();
 
 
 }
 
-
 //Override default signal handler:
-//bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
-
 void VueG::addDrawCommandListener(Controleur *c){
-	//bEnter.signal_clicked().connect(sigc::mem_fun(*c, &Controleur::on_button_enter));
 	bEnter.signal_clicked().connect(sigc::mem_fun(*c, &Controleur::on_button_enter));
 }
 

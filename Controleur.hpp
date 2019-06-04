@@ -3,10 +3,12 @@
 #include "Modele.hpp"
 #include "VueGraphique.hpp"
 
+
 class Controleur {
 
   private:
-  	Modele *_m;
+
+    Modele *_m;
   	VueG *_v;
 
   public:
