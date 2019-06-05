@@ -52,11 +52,9 @@ Commande Modele::commandDecoding(std::string entry){
 }
 
 void Modele::FindEndCommand(std::string::iterator it, std::string entry){
-  while(*it != ';'){
-    it++;
-  }
-  if(*it == ';'){
-    entry.erase(entry.cbegin(), entry.cend());
+  std::size_t last_pos_to_erase = entry.find(";");
+  if(last_pos_to_erase != std::string::npos){
+    entry.erase(0, last_pos_to_erase+1);
   }
   this->_state = init;
   std::cout << "New Entry: " << entry <<std::endl;
