@@ -36,12 +36,17 @@ class VueG : public Gtk::Window, public Commande, public Observateur<Commande>{
 		VueG();
 		virtual ~VueG();
 		void update(Commande) override;
-		void setDraw();
+		void setDraw(Commande CMD);
 		void setContext();
 
 		void addDrawCommandListener(Controleur*);
 		Cairo::RefPtr<Cairo::Context> getContext() const;
 		std::string getEntry() const;
+
+		// void setWidth(int myWidth);
+		// int getWidth();
+		// void setHeight(int myHeight);
+		// int getHeight();
 
 
 };

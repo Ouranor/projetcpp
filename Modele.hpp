@@ -33,5 +33,5 @@ class Modele : public Commande, public Observable<Commande> {
 
     int FindFirstArgument(std::string::iterator it);
     bool FindInstCommand(std::string inst, std::string entry);
-    void FindEndCommand(std::string::iterator it, std::string entry);
+    void FindEndCommand(std::string entry);
 };

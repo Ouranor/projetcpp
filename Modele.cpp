@@ -44,14 +44,14 @@ Commande Modele::commandDecoding(std::string entry){
 
     if(this->_state == find_endCmd){
       std::cout << "STATE END CMD " <<std::endl;
-      FindEndCommand(it, entry);
+      FindEndCommand(entry);
     }
 
   }
   return Cmd;
 }
 
-void Modele::FindEndCommand(std::string::iterator it, std::string entry){
+void Modele::FindEndCommand(std::string entry){
   std::size_t last_pos_to_erase = entry.find(";");
   if(last_pos_to_erase != std::string::npos){
     entry.erase(0, last_pos_to_erase+1);
@@ -72,9 +72,9 @@ int Modele::FindFirstArgument(std::string::iterator it){
     it++;
   }
   std::cout << "ARG1:  " << arg1 << "  ";
+  this->_state = find_endCmd;
   char buffer[arg1.size() + 1];
   strcpy(buffer, arg1.c_str());
-  this->_state = find_endCmd;
   return atoi(buffer);
 }
 

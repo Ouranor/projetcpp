@@ -72,13 +72,14 @@ VueG::VueG() :
 /* mise à jours vennant de l'observable */
 void VueG::update(Commande CMD){
 
-	setDraw();
+	setDraw(CMD);
 
 }
 
 void VueG::setContext(){
 	this->_myContext = this->myDrawArea.get_window()->create_cairo_context();
 	std::cout << "setContext" << std::endl;
+	this->_myContext->move_to(myDrawArea.getWinWidth()/2,myDrawArea.getWinHeight()/2);
 }
 
 Cairo::RefPtr<Cairo::Context> VueG::getContext() const{
@@ -95,26 +96,53 @@ std::string VueG::getEntry() const {
 
 /* Le modele notifie l'observable puis celui-ci fais un update à la vue graphique , la fonction setDraw est alors appele */
 /* Ici setDraw est uniquement exemple d'utilisation de tracé d'une ligne rouge dans la zone de dessins */
-void VueG:: setDraw(){
+void VueG::setDraw(Commande CMD){
 
 	setContext();
 
-	const int height = this->myDrawArea.getHeight();
-	const int width = this->myDrawArea.getWidth();
-
-	std::cout<<"draw"<<std ::endl;
-
 	this->_myContext->set_source_rgb(0.8, 0.0, 0.0);
 	this->_myContext->set_line_width(4.0);
-	this->_myContext->move_to(width,height);
-  this->_myContext->line_to(width,0);
+	std::cout<<"draw"<<std ::endl;
+	std::cout<<"CMD LEN  "<< CMD._lenght <<std ::endl;
+	std::cout<<"CMD INST  "<< CMD._cmd <<std ::endl;
 
-	this->_myContext->move_to(0,0);
-  this->_myContext->line_to(width,0);
-  this->_myContext->stroke_preserve();
+	switch(CMD._cmd)
+	{
+		case(MF):{
+			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
+			myDrawArea.setWidth(myDrawArea.getWidth() + CMD._lenght);
+			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
+			this->_myContext->stroke_preserve(); break;
+		}
+		case(MB):{
+			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
+			myDrawArea.setWidth(myDrawArea.getWidth() - CMD._lenght);
+			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
+			this->_myContext->stroke_preserve(); break;
+		}
+		case(MR):{
+			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
+			myDrawArea.setHeight(myDrawArea.getHeight() - CMD._lenght);
+			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
+			this->_myContext->stroke_preserve(); break;
+		}
+		case(ML):{
+			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
+			myDrawArea.setHeight(myDrawArea.getHeight() + CMD._lenght);
+			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
+			this->_myContext->stroke_preserve(); break;
+		}
+		default:{
+			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
+			myDrawArea.setHeight(myDrawArea.getHeight() + CMD._lenght);
+			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
+			this->_myContext->stroke_preserve(); break;
+		};
+	}
 
 
 }
+
 
 //Override default signal handler:
 void VueG::addDrawCommandListener(Controleur *c){
