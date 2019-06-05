@@ -11,13 +11,14 @@ class Commande{
     dir _dir;
     int _lenght;
     int _angle;
+    bool _valid;
 };
 
 class Modele : public Commande, public Observable<Commande> {
 
   protected:
 
-    typedef enum ModelState{init,find_inst,find_arg1,find_endCmd} state;
+    typedef enum ModelState{init,find_inst,find_arg1,find_endCmd,wrong_cmd} state;
     state _state;
     Commande _decodedCmd;
 
@@ -30,6 +31,10 @@ class Modele : public Commande, public Observable<Commande> {
     Commande getDecodedCommand();
     void setDecodedCommand(std::string entry);
     Commande commandDecoding(std::string c);
+
+    state getModelState() const;
+    void setModelState(state myState);
+    bool stateIsWrongCmd();
 
     int FindFirstArgument(std::string::iterator it);
     bool FindInstCommand(std::string inst, std::string entry);

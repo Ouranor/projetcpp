@@ -18,15 +18,16 @@ public:
   MyArea(double fix, int width, int height);
   virtual ~MyArea();
 
-	int getHeight() const;
-	int getWidth() const;
 	void setWidth(int myWidth);
 	void setHeight(int myHeight);
+	void setWinWidth(int w);
+	void setWinHeight(int h);
 
-	void setWinWidth(int w) const;
-	void setWinHeight(int h) const;
-	int getWinWidth();
-	int getWinHeight();
+	int getHeight() const;
+	int getWidth() const;
+	int getWinWidth() const;
+	int getWinHeight() const;
+
 
   //Override default signal handler:
   bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;

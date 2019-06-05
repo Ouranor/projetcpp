@@ -94,6 +94,13 @@ std::string VueG::getEntry() const {
 	return cmdEntry;
 }
 
+void VueG::setEntry(std::string msg){
+	static_cast<Glib::ustring>(msg);
+	std::cout <<"setentryyyyyyyyyy";
+	entry.set_text(msg);
+}
+
+
 /* Le modele notifie l'observable puis celui-ci fais un update à la vue graphique , la fonction setDraw est alors appele */
 /* Ici setDraw est uniquement exemple d'utilisation de tracé d'une ligne rouge dans la zone de dessins */
 void VueG::setDraw(Commande CMD){
@@ -103,9 +110,14 @@ void VueG::setDraw(Commande CMD){
 	this->_myContext->set_source_rgb(0.8, 0.0, 0.0);
 	this->_myContext->set_line_width(4.0);
 	std::cout<<"draw"<<std ::endl;
-	std::cout<<"CMD LEN  "<< CMD._lenght <<std ::endl;
-	std::cout<<"CMD INST  "<< CMD._cmd <<std ::endl;
+	std::cout<<"CMD LEN  "<< CMD._lenght <<std::endl;
+	std::cout<<"CMD INST  "<< CMD._cmd <<std::endl;
 
+	//Type Commande contient toutes les infos pour tracer dans la VueGraphique
+	//Switch pour différencier toutes les commandes possibles (MF, MB...)
+	//Type commande contient infos sur type d'instruction, argument1(longueur,angle...)
+
+	//TODO: tracer correct pour chaque instru
 	switch(CMD._cmd)
 	{
 		case(MF):{
@@ -132,11 +144,8 @@ void VueG::setDraw(Commande CMD){
 			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
 			this->_myContext->stroke_preserve(); break;
 		}
-		default:{
-			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			myDrawArea.setHeight(myDrawArea.getHeight() + CMD._lenght);
-			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			this->_myContext->stroke_preserve(); break;
+		default:{//Wrong CMD command not found
+			setEntry("Wrong Command Format! Please see Help menu.");
 		};
 	}
 
