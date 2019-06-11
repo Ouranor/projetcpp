@@ -5,12 +5,12 @@
 
 #include "Observateur.hpp"
 #include "MyArea.hpp"
-#include "Modele.hpp"
 
 
 class Controleur;
+class Commande;
 
-class VueG : public Gtk::Window, public Commande, public Observateur<Commande>{
+class VueGraphique : public Gtk::Window, public Observateur<Commande>{
 
 	private:
 
@@ -33,8 +33,8 @@ class VueG : public Gtk::Window, public Commande, public Observateur<Commande>{
 
 	public :
 
-		VueG();
-		virtual ~VueG();
+		VueGraphique();
+		virtual ~VueGraphique();
 		void update(Commande) override;
 		void setDraw(Commande CMD);
 		void setContext();

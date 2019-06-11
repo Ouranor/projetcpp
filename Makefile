@@ -19,6 +19,7 @@ Controleur.o: Controleur.hpp
 
 MyArea.o: MyArea.hpp
 
+Commande.o: Commande.hpp
 Observable.o: Observable.hpp
 Observateur.o: Observateur.hpp
 

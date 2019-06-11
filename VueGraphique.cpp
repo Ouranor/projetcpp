@@ -5,10 +5,11 @@
 #include <cstdlib>
 #include <iomanip>
 
-#include "VueGraphique.hpp"
 #include "Controleur.hpp"
+#include "VueGraphique.hpp"
 
-VueG::VueG() :
+
+VueGraphique::VueGraphique() :
 		boxTop(Gtk::ORIENTATION_HORIZONTAL),
 		box_gauche(Gtk::ORIENTATION_VERTICAL),box_gauche_haut(Gtk::ORIENTATION_VERTICAL),
 		box_droit(Gtk::ORIENTATION_VERTICAL),box_droit_bas(Gtk::ORIENTATION_VERTICAL),
@@ -16,7 +17,6 @@ VueG::VueG() :
 {
 
 	std::cout<<"Vuegraphique "<<std::endl;
-	//box_gauche_haut
 	box_gauche_haut.set_size_request(200,100);
 
 	//pour afficher les text d'aide dans box_gauche_bas
@@ -26,7 +26,7 @@ VueG::VueG() :
 	if(in.is_open()){
 		while(!in.eof()){
 			getline(in,line);
-			std::cout<<line<<std::endl;
+			//std::cout<<line<<std::endl;
 			textBuffer1->insert_at_cursor("\t");
 			textBuffer1->insert_at_cursor(line);
 			textBuffer1->insert_at_cursor("\n");
@@ -69,78 +69,61 @@ VueG::VueG() :
 	show_all_children();
 
 	}
-/* mise à jours vennant de l'observable */
-void VueG::update(Commande CMD){
+
+VueGraphique::~VueGraphique(){}
+
+/* mise à jours vennant de l'observable - Structure de donnée de type Commande*/
+void VueGraphique::update(Commande CMD){
 
 	setDraw(CMD);
 
 }
 
-void VueG::setContext(){
-	this->_myContext = this->myDrawArea.get_window()->create_cairo_context();
-	std::cout << "setContext" << std::endl;
-	this->_myContext->move_to(myDrawArea.getWinWidth()/2,myDrawArea.getWinHeight()/2);
-}
-
-Cairo::RefPtr<Cairo::Context> VueG::getContext() const{
-	return this->_myContext;
-	std::cout << "getContext" << std::endl;
-}
-
-std::string VueG::getEntry() const {
-	Glib::ustring cmdEntry = entry.get_text();
-	std::cout << "getEntry:" << cmdEntry << std::endl;
-	static_cast<std::string>(cmdEntry);
-	return cmdEntry;
-}
-
-void VueG::setEntry(std::string msg){
-	static_cast<Glib::ustring>(msg);
-	std::cout <<"setentryyyyyyyyyy";
-	entry.set_text(msg);
-}
 
 
-/* Le modele notifie l'observable puis celui-ci fais un update à la vue graphique , la fonction setDraw est alors appele */
-/* Ici setDraw est uniquement exemple d'utilisation de tracé d'une ligne rouge dans la zone de dessins */
-void VueG::setDraw(Commande CMD){
+//=====================================================================
+/* Le modele notifie l'observable puis celui-ci fais un update à la vue graphique ,
+	la fonction setDraw est alors appelée
+	Ici setDraw est uniquement exemple d'utilisation de tracé d'une ligne rouge
+	dans la zone de dessins
+	*/
+
+void VueGraphique::setDraw(Commande CMD){
 
 	setContext();
 
-	this->_myContext->set_source_rgb(0.8, 0.0, 0.0);
-	this->_myContext->set_line_width(4.0);
 	std::cout<<"draw"<<std ::endl;
-	std::cout<<"CMD LEN  "<< CMD._lenght <<std::endl;
-	std::cout<<"CMD INST  "<< CMD._cmd <<std::endl;
+	std::cout<<"CMD LEN  "<< CMD.getLenght() <<std::endl;
+	std::cout<<"CMD INST  "<< CMD.getCmd() <<std::endl;
 
 	//Type Commande contient toutes les infos pour tracer dans la VueGraphique
 	//Switch pour différencier toutes les commandes possibles (MF, MB...)
 	//Type commande contient infos sur type d'instruction, argument1(longueur,angle...)
 
 	//TODO: tracer correct pour chaque instru
-	switch(CMD._cmd)
+	switch(CMD.getCmd())
 	{
-		case(MF):{
+		case(Commande::MF):{
 			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			myDrawArea.setWidth(myDrawArea.getWidth() + CMD._lenght);
+			myDrawArea.setWidth(myDrawArea.getWidth() + CMD.getLenght());
 			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
 			this->_myContext->stroke_preserve(); break;
 		}
-		case(MB):{
+		case(Commande::MB):{
 			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			myDrawArea.setWidth(myDrawArea.getWidth() - CMD._lenght);
+			myDrawArea.setWidth(myDrawArea.getWidth() - CMD.getLenght());
 			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
 			this->_myContext->stroke_preserve(); break;
 		}
-		case(MR):{
+		case(Commande::MR):{
 			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			myDrawArea.setHeight(myDrawArea.getHeight() - CMD._lenght);
+			myDrawArea.setHeight(myDrawArea.getHeight() - CMD.getLenght());
 			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
 			this->_myContext->stroke_preserve(); break;
 		}
-		case(ML):{
+		case(Commande::ML):{
 			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			myDrawArea.setHeight(myDrawArea.getHeight() + CMD._lenght);
+			myDrawArea.setHeight(myDrawArea.getHeight() + CMD.getLenght());
 			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
 			this->_myContext->stroke_preserve(); break;
 		}
@@ -149,13 +132,47 @@ void VueG::setDraw(Commande CMD){
 		};
 	}
 
-
 }
 
+
+//=====================================================================
+
+
+//========================Getters/Setters==============================
+
+std::string VueGraphique::getEntry() const {
+	Glib::ustring cmdEntry = entry.get_text();
+	std::cout << "getEntry:" << cmdEntry << std::endl;
+	static_cast<std::string>(cmdEntry);
+	return cmdEntry;
+}
+
+void VueGraphique::setEntry(std::string msg){
+	static_cast<Glib::ustring>(msg);
+	std::cout <<"setEntry";
+	entry.set_text(msg);
+}
+
+//Set des paramètres initiaux du contexte - Appelé dans setDraw()
+void VueGraphique::setContext(){
+	this->_myContext = this->myDrawArea.get_window()->create_cairo_context();
+	this->_myContext->move_to(myDrawArea.getWinWidth()/2,myDrawArea.getWinHeight()/2);
+	this->_myContext->set_source_rgb(0.8, 0.0, 0.0);
+	this->_myContext->set_line_width(4.0);
+	//std::cout << "setContext" << std::endl;
+}
+
+Cairo::RefPtr<Cairo::Context> VueGraphique::getContext() const{
+	return this->_myContext;
+	std::cout << "getContext" << std::endl;
+}
+
+//=====================================================================
+
+
+//===============================Listeners==============================
 
 //Override default signal handler:
-void VueG::addDrawCommandListener(Controleur *c){
+void VueGraphique::addDrawCommandListener(Controleur *c){
 	bEnter.signal_clicked().connect(sigc::mem_fun(*c, &Controleur::on_button_enter));
 }
-
-VueG::~VueG(){}

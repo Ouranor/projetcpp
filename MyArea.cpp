@@ -8,8 +8,8 @@ MyArea::MyArea(double fix,int width, int height) : m_fix (fix),m_width(width),m_
 
   set_size_request (this->m_width,this->m_height);
   Gtk::Allocation allocation = get_allocation();
-  this->setWinWidth(allocation.get_width());
-  this->setWinHeight(allocation.get_height());
+  setWinWidth(allocation.get_width());
+  setWinHeight(allocation.get_height());
 
 }
 
@@ -18,6 +18,7 @@ MyArea::~MyArea(){}
 bool MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
 {
+
   cr->set_line_width(1.0);
 
    cr->move_to(0, 0);

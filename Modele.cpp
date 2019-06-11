@@ -6,7 +6,7 @@
 #include "Modele.hpp"
 
 Modele::Modele(){
-  this->_state = init;
+  setModelState(init);
 }
 
 Modele::~Modele(){}
@@ -18,27 +18,27 @@ void Modele::commandtoDraw(){
 Commande Modele::commandDecoding(std::string entry){
 
   Commande Cmd;
-  this->_state = find_inst;
+  setModelState(find_inst);
   std::string::iterator it = entry.begin();
 
   while(getModelState() != init){
 
     if(getModelState() == find_inst){
       std::cout << "STATE INST"<<std::endl;
-      if(FindInstCommand("MF",entry)) Cmd._cmd = MF;
-      else if(FindInstCommand("MB",entry)) Cmd._cmd = MB;
-      else if(FindInstCommand("MR",entry)) Cmd._cmd = MR;
-      else if(FindInstCommand("ML",entry)) Cmd._cmd = ML;
-      else if(FindInstCommand("ROT",entry)) Cmd._cmd = ROT;
+      if(FindInstCommand("MF",entry)) Cmd.setCmd(Commande::MF);
+      else if(FindInstCommand("MB",entry)) Cmd.setCmd(Commande::MB);
+      else if(FindInstCommand("MR",entry)) Cmd.setCmd(Commande::MR);
+      else if(FindInstCommand("ML",entry)) Cmd.setCmd(Commande::ML);
+      else if(FindInstCommand("ROT",entry)) Cmd.setCmd(Commande::ROT);
       else setModelState(wrong_cmd);
     }
 
     if(getModelState() == find_arg1){
       std::cout << "STATE FIND ARG1 " <<std::endl;
-      switch(Cmd._cmd)
+      switch(Cmd.getCmd())
       {
-        case(ROT): Cmd._angle = FindFirstArgument(it); break;
-        default: Cmd._lenght = FindFirstArgument(it);
+        case(Commande::ROT): Cmd.setAngle(FindFirstArgument(it)); break;
+        default: Cmd.setLenght(FindFirstArgument(it));
       }
     }
 
@@ -48,7 +48,7 @@ Commande Modele::commandDecoding(std::string entry){
     }
 
     if(stateIsWrongCmd()){
-      Cmd._valid = false;
+      Cmd.setValid(false);
       std::cout <<"WROONNG CMD  ";
       break;
       //setModelState(init);

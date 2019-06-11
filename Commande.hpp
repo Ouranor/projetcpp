@@ -1,0 +1,55 @@
+#pragma once
+
+/*Classe Commande
+  Structure de donnée utilisée pour transmettre les données de l'observé
+  (VueGraphique) à l'observateur (Modèle).
+  Le paramètre générique T de la template de la classe Observateur
+  sera remplacé par notre type Commande. Ainsi une seule méthode void update(T) avec
+  notre structure de donnée Commande en paramètre sera utlisée pour transférer toutes
+  les données nécessaires à la vue graphique
+*/
+
+class Commande{
+
+  public:
+
+    typedef enum direction{RIGHT,LEFT,TOP,BOT} dir;
+    typedef enum command{MF,MB,MR,ML,ROT} cmd;
+
+    void setCmd(cmd c){
+      this->_cmd = c;
+    }
+    Commande::cmd getCmd() const{
+      return this->_cmd;
+    }
+
+    void setLenght(int l){
+      this->_lenght = l;
+    }
+    int getLenght() const{
+      return this->_lenght;
+    }
+
+    void setAngle(int a){
+      this->_angle = a;
+    }
+    int getAngle() const{
+      return this->_angle;
+    }
+
+    void setValid(bool valid){
+      this->_valid = valid;
+    }
+    int getValid() const{
+      return this->_valid;
+    }
+
+
+  private:
+    cmd _cmd;
+    dir _dir;
+    int _lenght;
+    int _angle;
+    bool _valid;
+
+};

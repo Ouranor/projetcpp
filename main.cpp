@@ -14,7 +14,7 @@ int main(int argc, char *argv[]){
 
 	Modele *m = new Modele();
 	std::cout << "test main1";
-	VueG *vg = new VueG();
+	VueGraphique *vg = new VueGraphique();
 	std::cout << "test main2";
 	Controleur *c = new Controleur(m,vg);
 	std::cout << "test main3";

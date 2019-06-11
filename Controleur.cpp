@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Controleur::Controleur(Modele *m,VueG *v) : _m(m),_v(v){
+Controleur::Controleur(Modele *m,VueGraphique *v) : _m(m),_v(v){
 	_v->addDrawCommandListener(this);
 	std::cout<<"controleur cree" << std::endl;
 }

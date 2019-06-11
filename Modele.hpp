@@ -1,20 +1,11 @@
 #pragma once
 
+#include "Commande.hpp"
 #include "Observable.hpp"
 #include <string>
 
-class Commande{
-  public:
-    typedef enum direction{RIGHT,LEFT,TOP,BOT} dir;
-    typedef enum command{MF,MB,MR,ML,ROT} cmd;
-    cmd _cmd;
-    dir _dir;
-    int _lenght;
-    int _angle;
-    bool _valid;
-};
 
-class Modele : public Commande, public Observable<Commande> {
+class Modele : public Observable<Commande> {
 
   protected:
 
