@@ -115,6 +115,8 @@ void VueGraphique::setDraw(Commande CMD,int state){
 
    			 break ;
 		}
+
+		
 		case(Commande::MB):{
 			
 		    myDrawArea.setCoordinates(myDrawArea.getLastAbsciss()- CMD.getLenght(),myDrawArea.getLastOrdinate());

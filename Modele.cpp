@@ -25,7 +25,8 @@ Commande Modele::commandDecoding(std::string entry){
 
     if(getModelState() == find_inst){
       std::cout << "STATE INST"<<std::endl;
-      if(FindInstCommand("MF",entry)) Cmd.setCmd(Commande::MF);
+      if(FindInstCommand("MF",entry))Cmd.setCmd(Commande::MF);
+      
       else if(FindInstCommand("MB",entry)) Cmd.setCmd(Commande::MB);
       else if(FindInstCommand("MR",entry)) Cmd.setCmd(Commande::MR);
       else if(FindInstCommand("ML",entry)) Cmd.setCmd(Commande::ML);
@@ -37,7 +38,11 @@ Commande Modele::commandDecoding(std::string entry){
       std::cout << "STATE FIND ARG1 " <<std::endl;
       switch(Cmd.getCmd())
       {
-        case(Commande::ROT): Cmd.setAngle(FindFirstArgument(it)); break;
+        case(Commande::ROT):
+         Cmd.setAngle(FindFirstArgument(it));
+        // Cmd.setLongueurAbscisse(FindFirstArgument(it));
+        // std::cout<<Cmd.getLongueurAbscisse()<< std::endl;
+         break;
         default: Cmd.setLenght(FindFirstArgument(it));
       }
     }

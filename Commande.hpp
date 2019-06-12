@@ -14,7 +14,7 @@ class Commande{
   public:
 
     typedef enum direction{RIGHT,LEFT,TOP,BOT} dir;
-    typedef enum command{MF,MB,MR,ML,ROT} cmd;
+    typedef enum command{MF,MFL,MB,MR,ML,ROT} cmd;
 
     void setCmd(cmd c){
       this->_cmd = c;
@@ -43,6 +43,21 @@ class Commande{
     int getValid() const{
       return this->_valid;
     }
+
+    int getLongueurAbscisse() const{
+      return this->_longeurAbscisse;
+    }
+    int getLongueurOrdoonee() const{
+      return this->_longueurOrdoonee;
+    }
+    void setLongueurOrdoonee(int y){
+      this->_longueurOrdoonee=y;
+      
+    }
+
+    void setLongueurAbscisse(int x){
+      this->_longeurAbscisse=x;
+    }
     /*
     void afficher(std::ostream &flux) const {
       flux<< " la commande est "<< this->_cmd << " la longueur du trait est " << this->_lenght << " l'angle est " << this->_angle<< std::endl;
@@ -59,6 +74,8 @@ class Commande{
     dir _dir;
     int _lenght;
     int _angle;
+    int _longeurAbscisse;
+    int _longueurOrdoonee;
     bool _valid;
 
 };
