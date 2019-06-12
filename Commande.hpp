@@ -44,19 +44,19 @@ class Commande{
       return this->_valid;
     }
 
-    int getLongueurAbscisse() const{
-      return this->_longeurAbscisse;
+    int getLongueurAbsciss() const{
+      return this->_longeurAbsciss;
     }
-    int getLongueurOrdoonee() const{
-      return this->_longueurOrdoonee;
+    int getLongueurOrdinate() const{
+      return this->_longueurOrdinate;
     }
-    void setLongueurOrdoonee(int y){
-      this->_longueurOrdoonee=y;
+    void setLongueurOrdinate(int y){
+      this->_longueurOrdinate=y;
       
     }
 
-    void setLongueurAbscisse(int x){
-      this->_longeurAbscisse=x;
+    void setLongueurAbsciss(int x){
+      this->_longeurAbsciss=x;
     }
     /*
     void afficher(std::ostream &flux) const {
@@ -74,8 +74,8 @@ class Commande{
     dir _dir;
     int _lenght;
     int _angle;
-    int _longeurAbscisse;
-    int _longueurOrdoonee;
+    int _longeurAbsciss;
+    int _longueurOrdinate;
     bool _valid;
 
 };

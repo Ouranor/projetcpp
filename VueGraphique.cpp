@@ -4,7 +4,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <iomanip>
-
+# include <math.h>
 #include "Controleur.hpp"
 #include "VueGraphique.hpp"
 int state=1;
@@ -116,7 +116,7 @@ void VueGraphique::setDraw(Commande CMD,int state){
    			 break ;
 		}
 
-		
+
 		case(Commande::MB):{
 			
 		    myDrawArea.setCoordinates(myDrawArea.getLastAbsciss()- CMD.getLenght(),myDrawArea.getLastOrdinate());
@@ -134,6 +134,9 @@ void VueGraphique::setDraw(Commande CMD,int state){
 			
 			myDrawArea.setCoordinates(myDrawArea.getLastAbsciss(),myDrawArea.getLastOrdinate()-CMD.getLenght());
 
+		}
+		case(Commande::ROT):{
+			myDrawArea.setCoordinates((CMD.getLongueurAbsciss()+myDrawArea.getLastAbsciss())*cos(CMD.getAngle()),(CMD.getLongueurOrdinate()+myDrawArea.getLastOrdinate())*sin(CMD.getAngle()));
 		}
 		default:{//Wrong CMD command not found
 			setEntry("Wrong Command Format! Please see Help menu.");

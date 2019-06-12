@@ -30,7 +30,8 @@ Commande Modele::commandDecoding(std::string entry){
       else if(FindInstCommand("MB",entry)) Cmd.setCmd(Commande::MB);
       else if(FindInstCommand("MR",entry)) Cmd.setCmd(Commande::MR);
       else if(FindInstCommand("ML",entry)) Cmd.setCmd(Commande::ML);
-      else if(FindInstCommand("ROT",entry)) Cmd.setCmd(Commande::ROT);
+      else if(FindInstCommand("ROT",entry)){ 
+        Cmd.setCmd(Commande::ROT);}
       else setModelState(wrong_cmd);
     }
 
