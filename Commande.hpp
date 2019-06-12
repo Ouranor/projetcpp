@@ -1,5 +1,5 @@
 #pragma once
-
+# include <iostream>
 /*Classe Commande
   Structure de donnée utilisée pour transmettre les données de l'observé
   (VueGraphique) à l'observateur (Modèle).
@@ -43,7 +43,16 @@ class Commande{
     int getValid() const{
       return this->_valid;
     }
-
+    /*
+    void afficher(std::ostream &flux) const {
+      flux<< " la commande est "<< this->_cmd << " la longueur du trait est " << this->_lenght << " l'angle est " << this->_angle<< std::endl;
+      if (this->getValid()){
+        flux << " la commande est valide " ;
+      }
+      else 
+        flux << " la commande n'est pas valide ";
+    }
+    */
 
   private:
     cmd _cmd;
@@ -53,3 +62,9 @@ class Commande{
     bool _valid;
 
 };
+/*
+std::ostream &operator<<( std::ostream &flux,const Commande  & commande){
+  commande.afficher(flux);
+  return flux;
+}
+*/

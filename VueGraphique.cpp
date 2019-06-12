@@ -7,7 +7,7 @@
 
 #include "Controleur.hpp"
 #include "VueGraphique.hpp"
-
+int state=1;
 
 VueGraphique::VueGraphique() :
 		boxTop(Gtk::ORIENTATION_HORIZONTAL),
@@ -46,7 +46,7 @@ VueGraphique::VueGraphique() :
 	box_droit_bas.pack_start(myDrawArea,Gtk::PACK_SHRINK);
 	box_droit_bas.set_size_request(400,400);
 	box_droit_bas.set_border_width(30);
-
+	//setContext();
 	// l’entrée
 	entry.set_max_length(50);
 	entry.set_text("Enter");
@@ -66,16 +66,21 @@ VueGraphique::VueGraphique() :
 	boxTop.set_border_width(30);
 	add(boxTop);
 
+
 	show_all_children();
+	
+	this->m_state=1;
 
 	}
 
 VueGraphique::~VueGraphique(){}
 
+
 /* mise à jours vennant de l'observable - Structure de donnée de type Commande*/
 void VueGraphique::update(Commande CMD){
-
-	setDraw(CMD);
+	
+	setDraw(CMD,this->getState());
+	this->setState(0);
 
 }
 
@@ -88,9 +93,9 @@ void VueGraphique::update(Commande CMD){
 	dans la zone de dessins
 	*/
 
-void VueGraphique::setDraw(Commande CMD){
+void VueGraphique::setDraw(Commande CMD,int state){
 
-	setContext();
+	setContext(state);
 
 	std::cout<<"draw"<<std ::endl;
 	std::cout<<"CMD LEN  "<< CMD.getLenght() <<std::endl;
@@ -104,33 +109,39 @@ void VueGraphique::setDraw(Commande CMD){
 	switch(CMD.getCmd())
 	{
 		case(Commande::MF):{
-			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			myDrawArea.setWidth(myDrawArea.getWidth() + CMD.getLenght());
-			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			this->_myContext->stroke_preserve(); break;
+			
+
+			 myDrawArea.setCoordinates(myDrawArea.getLastAbsciss()+CMD.getLenght(),myDrawArea.getLastOrdinate());
+
+   			 break ;
 		}
 		case(Commande::MB):{
-			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			myDrawArea.setWidth(myDrawArea.getWidth() - CMD.getLenght());
-			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			this->_myContext->stroke_preserve(); break;
+			
+		    myDrawArea.setCoordinates(myDrawArea.getLastAbsciss()- CMD.getLenght(),myDrawArea.getLastOrdinate());
+		    break;
+
+
 		}
 		case(Commande::MR):{
-			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			myDrawArea.setHeight(myDrawArea.getHeight() - CMD.getLenght());
-			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			this->_myContext->stroke_preserve(); break;
+			
+			 myDrawArea.setCoordinates(myDrawArea.getLastAbsciss(),myDrawArea.getLastOrdinate()+CMD.getLenght());
+			 break;
+
 		}
 		case(Commande::ML):{
-			this->_myContext->line_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			myDrawArea.setHeight(myDrawArea.getHeight() + CMD.getLenght());
-			this->_myContext->move_to(myDrawArea.getWidth(),myDrawArea.getHeight());
-			this->_myContext->stroke_preserve(); break;
+			
+			myDrawArea.setCoordinates(myDrawArea.getLastAbsciss(),myDrawArea.getLastOrdinate()-CMD.getLenght());
+
 		}
 		default:{//Wrong CMD command not found
 			setEntry("Wrong Command Format! Please see Help menu.");
 		};
 	}
+	this->_myContext->save();
+	this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+	myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+	this->_myContext->stroke_preserve();
+	this->_myContext->restore();
 
 }
 
@@ -154,12 +165,18 @@ void VueGraphique::setEntry(std::string msg){
 }
 
 //Set des paramètres initiaux du contexte - Appelé dans setDraw()
-void VueGraphique::setContext(){
+void VueGraphique::setContext(int state){
+	if(state){
 	this->_myContext = this->myDrawArea.get_window()->create_cairo_context();
-	this->_myContext->move_to(myDrawArea.getWinWidth()/2,myDrawArea.getWinHeight()/2);
+//	this->_myContext->move_to(myDrawArea.getWinWidth()/2,myDrawArea.getWinHeight()/2);
+	myDrawArea.setLastAbsciss(myDrawArea.getWinWidth()/2+myDrawArea.getWidth()/2);
+	myDrawArea.setLastOrdinate(myDrawArea.getWinHeight()/2+myDrawArea.getHeight()/2);
+	this->_myContext->move_to(myDrawArea.getLastAbsciss(),myDrawArea.getLastOrdinate());
 	this->_myContext->set_source_rgb(0.8, 0.0, 0.0);
+
 	this->_myContext->set_line_width(4.0);
-	//std::cout << "setContext" << std::endl;
+	std::cout << "setContext" << std::endl;
+}
 }
 
 Cairo::RefPtr<Cairo::Context> VueGraphique::getContext() const{
@@ -167,6 +184,12 @@ Cairo::RefPtr<Cairo::Context> VueGraphique::getContext() const{
 	std::cout << "getContext" << std::endl;
 }
 
+void VueGraphique::setState(int state){
+	this->m_state=state;
+}
+int VueGraphique::getState() const{
+	return this->m_state;
+}
 //=====================================================================
 
 

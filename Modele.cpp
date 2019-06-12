@@ -109,6 +109,7 @@ bool Modele::stateIsWrongCmd(){
 }
 
 //====================Getters/Setters==============================
+/* prends en argument la commande écrite par l'operateur */
 void Modele::setDecodedCommand(std::string entry){
 	this->_decodedCmd = commandDecoding(entry);
 }
@@ -121,3 +122,6 @@ Modele::state Modele::getModelState() const{
 void Modele::setModelState(state myState){
   this->_state = myState;
 }
+
+/* but : comprendre classe commande et comment y acceder , faire un operateur <<*/
+

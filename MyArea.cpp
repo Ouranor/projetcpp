@@ -51,7 +51,19 @@ int MyArea::getWinWidth() const{
 int MyArea::getWinHeight() const{
   return this->m_WinHeight;
 }
+int MyArea::getAbsciss() const{
+  return this->m_absciss;
+}
+int MyArea::getOrdinate() const {
+  return this->m_ordinate;
+}
 
+int MyArea::getLastAbsciss() const{
+  return this->m_lastAbsciss;
+}
+ int MyArea::getLastOrdinate() const{
+  return this->m_lastOrdinate;
+ }
 //===============Setters====================
 void MyArea::setWinWidth(int WinW){
   this->m_WinWidth = WinW;
@@ -65,4 +77,25 @@ void MyArea::setWidth(int myWidth){
 }
 void MyArea::setHeight(int myHeight){
   this->m_height = myHeight;
+}
+void MyArea::setOrdinate(int y){
+  this->m_ordinate=y;
+}
+void MyArea::setAbsciss(int x){
+  this->m_absciss=x;
+}
+void MyArea::setCoordinates(int x,int y){
+  this->setAbsciss(x);
+  this->setOrdinate(y);
+}
+void MyArea::setLastOrdinate(int y){
+  this->m_lastOrdinate=y;
+}
+void MyArea::setLastAbsciss(int x){
+  this->m_lastAbsciss=x;
+}
+
+void MyArea::setLastCoordinates(int x,int y){
+  this->setLastOrdinate(y);
+  this->setLastAbsciss(x);
 }
