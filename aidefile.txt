@@ -1,17 +1,36 @@
 Aide:
 
-	avance 50
+	Traceé simple:
 
-	droite 90
+	Tracé d'un segment de longueur X en direction du fond de la zone de dessins :
+	MF X;
 
-	avance 50
+	Tracé d'un segment de longueur X en direction de l'arriére de la zone de dessin:
+	MB X;
 
-	droite 90
+	Tracé d'un segment de longueur X en direction gauche:
+	ML X;
 
-	avance 50
+	Tracé d'un segment de longueur X en direction droite:
+	MR X;
 
-	droite 90
 
-	avance 50
+	Rotation:
 
-	droite 90
+	Rotation d'un angle Theta avec l'axe des abscisse d'un segment de longueur X Sur l'axe des abscisse et des ordonnes:
+	ROT Theta(en degres) X;
+
+	Tracé de Carré:
+
+	Tracé d'un carré de longueur L, en direction du fond de la zone de dessin et vers la gauche: CARRE L FRONT_LEFT;
+
+	
+	Tracé d'un carré de longueur L, en direction du fond de la zone de dessin et vers la droite: CARRE L FRONT_RIGHT;
+
+
+	Tracé d'un carré de longueur L, en direction de l'arrière de la zone de dessin et vers la gauche: CARRE L BACK_LEFT;
+
+
+	Tracé d'un carré de longueur L, en direction de l'arrière de la zone de dessin et vers la droite: CARRE L BACK_RIGHT;
+
+	

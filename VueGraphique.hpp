@@ -33,6 +33,7 @@ class VueGraphique : public Gtk::Window, public Observateur<Commande>{
 		/* Attribut qui indique si on est dans l'état initial ou après, afin de ne crée le context cairo une seule fois
 		 */
 		int m_state;
+		
 
 	public :
 
@@ -50,5 +51,7 @@ class VueGraphique : public Gtk::Window, public Observateur<Commande>{
 		void setEntry(std::string msg);
 		void setState(int state);
 		int getState() const;
+		
+
 
 };
