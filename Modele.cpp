@@ -66,7 +66,7 @@ Commande Modele::commandDecoding(std::string entry){
       Cmd.setLongueurAbsciss(longueur);
       Cmd.setLongueurOrdinate(longueur);
       }
-      else if(Cmd.getCmd()==Commande::CIRCLE){
+      if(Cmd.getCmd()==Commande::CIRCLE){
         Cmd.setAbsCircle(longueur);
       }
     }
@@ -151,6 +151,7 @@ int Modele::FindSecondArgument(std::string::iterator it){
   strcpy(buffer, arg2.c_str());
   if(this->FindInstCommand("CIRCLE",inst)) 
   setModelState(find_arg3);
+  else  setModelState(find_endCmd);
   return atoi(buffer);
 }
 int Modele::FindThirdArgument(std::string::iterator it){
