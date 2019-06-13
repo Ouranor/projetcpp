@@ -66,6 +66,25 @@ class Commande{
     void setDir(Commande:: dir d) {
       this->_dir=d;
     }
+
+    int getAbsCircle() const{
+      return this->_absCircle;
+    }
+    int getOrdoCircle() const{
+      return this->_ordCircle;
+    }
+    int getRayon() const{
+      return this->_rayon;
+    }
+    void setRayon(int r){
+      this->_rayon=r;
+    }
+    void setAbsCircle(int a){
+      this->_absCircle=a;
+    }
+    void setOrdoCircle(int o){
+      this->_ordCircle=o;
+    }
     /*
     void afficher(std::ostream &flux) const {
       flux<< " la commande est "<< this->_cmd << " la longueur du trait est " << this->_lenght << " l'angle est " << this->_angle<< std::endl;
@@ -80,6 +99,7 @@ class Commande{
   private:
     int _absCircle;
     int _ordCircle;
+    int _rayon;
     cmd _cmd;
     dir _dir;
     int _lenght;

@@ -21,6 +21,7 @@ Commande Modele::commandDecoding(std::string entry){
   setModelState(find_inst);
   std::string::iterator it = entry.begin();
   std::string::iterator it_temp=it;
+  std::string::iterator it_temp_sec=it;
   while(getModelState() != init){
 
     if(getModelState() == find_inst){
@@ -52,17 +53,27 @@ Commande Modele::commandDecoding(std::string entry){
         // Cmd.setLongueurAbscisse(FindFirstArgument(it));
         // std::cout<<Cmd.getLongueurAbscisse()<< std::endl;
          break;
-        // case(Commande::)
-        default: Cmd.setLenght(FindFirstArgument(it));
+         case(Commande::CIRCLE):
+          Cmd.setRayon(FindFirstArgument(it_temp));
+          break;
+        default: Cmd.setLenght(FindFirstArgument(it_temp));
       }
     }
     if(getModelState()==find_arg2){
       std::cout << "STATE FIND ARG2" << std::endl;
-      int longueur=FindSecondArgument(it);
+      int longueur=FindSecondArgument(it_temp_sec);
+      if(Cmd.getCmd()==Commande::ROT){
       Cmd.setLongueurAbsciss(longueur);
       Cmd.setLongueurOrdinate(longueur);
-
+      }
+      else if(Cmd.getCmd()==Commande::CIRCLE){
+        Cmd.setAbsCircle(longueur);
+      }
     }
+    if(getModelState()==find_arg3){
+      Cmd.setOrdoCircle(FindThirdArgument(it));
+    }
+
 
     if(getModelState() == find_endCmd){
       std::cout << "STATE END CMD " <<std::endl;
@@ -108,7 +119,7 @@ int Modele::FindFirstArgument(std::string::iterator it){
   std::cout << "ARG1:  " << arg1 << "  ";
   char buffer[arg1.size() + 1];
   strcpy(buffer, arg1.c_str());
-  if(this->FindInstCommand("ROT",inst))
+  if(this->FindInstCommand("ROT",inst)| this->FindInstCommand("CIRCLE",inst))
   {
     std::cout<<"debut find arg2"<<std::endl;
     setModelState(find_arg2);
@@ -121,7 +132,13 @@ int Modele::FindFirstArgument(std::string::iterator it){
 
 int Modele::FindSecondArgument(std::string::iterator it){
   std::string arg2;
-  while(isalpha(*it))it++;
+  std::string inst;
+  while(isalpha(*it)){
+    while(isalpha(*it)){
+   inst+=*it;
+   it++;
+  }
+  }
   while(isspace(*it))it++;
   while(isdigit(*it))it++;
   while(isspace(*it))it++;
@@ -132,12 +149,48 @@ int Modele::FindSecondArgument(std::string::iterator it){
   std::cout << "ARG2:  " << arg2 << "  ";
   char buffer[arg2.size() + 1];
   strcpy(buffer, arg2.c_str());
+  if(this->FindInstCommand("CIRCLE",inst)) 
+  setModelState(find_arg3);
+  return atoi(buffer);
+}
+int Modele::FindThirdArgument(std::string::iterator it){
+  std::string arg3;
+  while(isalpha(*it))it++;
+  while(isspace(*it))it++;
+  while(isdigit(*it))it++;
+  while(isspace(*it))it++;
+  while(isdigit(*it))it++;
+  while(isspace(*it))it++;
+  while(isdigit(*it)){
+    arg3 += *it;
+    it++;
+  }
+  std::cout << "ARG3:  " << arg3 << "  ";
+  char buffer[arg3.size() + 1];
+  strcpy(buffer, arg3.c_str());
   setModelState(find_endCmd);
   return atoi(buffer);
 }
-string Modele::FindCircleArgument(std::string::iterator it){
-  
+
+
+/*
+std::string Modele::FindCircleArgument(std::string::iterator it){
+std::string arg1;
+std::string arg2;
+while(!isdigit(*it))it++;
+while(isdigit(*it)){
+  arg1 += *it;
+    it++;
 }
+ while(isspace(*it))it++;
+ while(isdigit(*it)){
+  arg2 += *it;
+    it++;
+}
+
+}
+*/
+
 
 
 

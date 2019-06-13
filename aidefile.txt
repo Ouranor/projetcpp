@@ -33,4 +33,8 @@ Aide:
 
 	Tracé d'un carré de longueur L, en direction de l'arrière de la zone de dessin et vers la droite: CARRE L BACK_RIGHT;
 
+Tracé de  Cercle:
+	Pour tracer un cercle de centre (Xc,Yc) de rayon R on tape la commande :
+	CIRCLE R Xc Yc;
+
 	

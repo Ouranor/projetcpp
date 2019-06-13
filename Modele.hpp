@@ -29,6 +29,8 @@ class Modele : public Observable<Commande> {
 
     int FindFirstArgument(std::string::iterator it);
     int FindSecondArgument(std::string::iterator it);
+    int FindThirdArgument(std::string::iterator it);
+//std::string FindCircleArgument(std::string::iterator);
     bool FindInstCommand(std::string inst, std::string entry);
     void FindEndCommand(std::string entry);
 };

@@ -228,6 +228,7 @@ void VueGraphique::setDraw(Commande CMD,int state){
  				    */
  				    const int xc = width / 2;
   					const int yc = height / 2;
+  					//std::cout<<"xc:"<<xc<<std::endl;
  				    this->_myContext->save();
   					this->_myContext->arc(xc, yc, lesser / 2.0, 0.0, 2.0 * M_PI); // full circle
   					this->_myContext->set_source_rgba(0.0, 0.0, 0.8, 0.6);    // partially translucent
@@ -238,16 +239,32 @@ void VueGraphique::setDraw(Commande CMD,int state){
 				}
 				case (Commande::BACK_RIGHT):{
 
+
+
 				}
 			}
 			
+		}
+		case(Commande::CIRCLE):{
+					int xc=CMD.getAbsCircle();
+					int yc=CMD.getOrdoCircle();
+					int r=CMD.getRayon();
+			 		this->_myContext->save();
+  					this->_myContext->arc(xc, yc,r, 0.0, 2.0 * M_PI); // full circle
+  					this->_myContext->set_source_rgba(0.0, 0.0, 0.8, 0.6);    // partially translucent
+ 				    this->_myContext->fill_preserve();
+  					this->_myContext->restore();  // back to opaque black
+  					this->_myContext->stroke();
+
 		}
 		default:{//Wrong CMD command not found
 			setEntry("Wrong Command Format! Please see Help menu.");
 		};
 	}
 	if(CMD.getCmd()!=Commande::CARRE){
+
 		this->_myContext->save();
+
 		this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
 		myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
 		this->_myContext->stroke_preserve();
