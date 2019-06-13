@@ -9,6 +9,18 @@
 #include "VueGraphique.hpp"
 int state=1;
 
+double sind(double angle)
+{
+    double angleradians = angle * M_PI / 180.0f;
+    return sin(angleradians);
+}
+
+double cosd(double angle)
+{
+    double angleradians = angle * M_PI / 180.0f;
+    return cos(angleradians);
+}
+ //* M_PI / 180.0f;
 VueGraphique::VueGraphique() :
 		boxTop(Gtk::ORIENTATION_HORIZONTAL),
 		box_gauche(Gtk::ORIENTATION_VERTICAL),box_gauche_haut(Gtk::ORIENTATION_VERTICAL),
@@ -69,7 +81,7 @@ VueGraphique::VueGraphique() :
 
 	show_all_children();
 	
-	this->m_state=1;
+	this->m_state=0;
 
 	}
 
@@ -80,7 +92,7 @@ VueGraphique::~VueGraphique(){}
 void VueGraphique::update(Commande CMD){
 	
 	setDraw(CMD,this->getState());
-	this->setState(0);
+	this->setState(1);
 
 }
 
@@ -109,7 +121,7 @@ void VueGraphique::setDraw(Commande CMD,int state){
 	switch(CMD.getCmd())
 	{
 		case(Commande::MF):{
-			
+			 std::cout << " nous traçon un MF de longueur : " << CMD.getLenght() << std::endl;
 
 			 myDrawArea.setCoordinates(myDrawArea.getLastAbsciss()+CMD.getLenght(),myDrawArea.getLastOrdinate());
 
@@ -131,22 +143,93 @@ void VueGraphique::setDraw(Commande CMD,int state){
 
 		}
 		case(Commande::ML):{
-			
+			 std::cout << " nous traçon un ML de longueur : " << CMD.getLenght() << std::endl;
+			 std::cout << " nous traçon un ML de longueur : " <<CMD.getCmd() << std::endl;
 			myDrawArea.setCoordinates(myDrawArea.getLastAbsciss(),myDrawArea.getLastOrdinate()-CMD.getLenght());
 
 		}
 		case(Commande::ROT):{
-			myDrawArea.setCoordinates((CMD.getLongueurAbsciss()+myDrawArea.getLastAbsciss())*cos(CMD.getAngle()),(CMD.getLongueurOrdinate()+myDrawArea.getLastOrdinate())*sin(CMD.getAngle()));
+			std::cout<< "test dessins rotation" << std:: endl;
+			std::cout<<"'angle correspond a :" <<cosd(CMD.getAngle())<< std::endl;
+			std::cout << " longeur en absciss de la rotation :" << CMD.getLongueurAbsciss()<< std::endl;
+			std::cout << " longeur en ordonnee de la rotation :" << CMD.getLongueurOrdinate()<< std::endl;
+
+
+			myDrawArea.setCoordinates((CMD.getLongueurAbsciss())*cosd(CMD.getAngle())+myDrawArea.getLastAbsciss(),(-CMD.getLongueurOrdinate())*sind(CMD.getAngle())+myDrawArea.getLastOrdinate());
+		}
+
+		case (Commande::CARRE):{
+			
+			switch(CMD.getDir()){
+				case(Commande::FRONT_LEFT):{
+					
+					this->_myContext->save();
+					/*Front line */
+					myDrawArea.setCoordinates(myDrawArea.getLastAbsciss()+CMD.getLenght(),myDrawArea.getLastOrdinate());
+					this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					/*Left line */
+					myDrawArea.setCoordinates(myDrawArea.getLastAbsciss(),myDrawArea.getLastOrdinate()-CMD.getLenght()); 
+					this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					/*Back line */
+					myDrawArea.setCoordinates(myDrawArea.getLastAbsciss()- CMD.getLenght(),myDrawArea.getLastOrdinate());
+					this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					/*Right line*/
+
+
+
+
+				}
+				case(Commande::FRONT_RIGHT):{
+					this->_myContext->save();
+					/*Front line */
+					myDrawArea.setCoordinates(myDrawArea.getLastAbsciss()+CMD.getLenght(),myDrawArea.getLastOrdinate());
+					this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					/*trait vers la droite */
+					myDrawArea.setCoordinates(myDrawArea.getLastAbsciss(),myDrawArea.getLastOrdinate()+CMD.getLenght());
+					this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					/*Back line */
+					myDrawArea.setCoordinates(myDrawArea.getLastAbsciss()- CMD.getLenght(),myDrawArea.getLastOrdinate());
+					this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					/*Left Line */
+					myDrawArea.setCoordinates(myDrawArea.getLastAbsciss(),myDrawArea.getLastOrdinate()-CMD.getLenght());
+					this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+					this->_myContext->stroke_preserve();
+					this->_myContext->restore();
+
+
+
+
+
+
+
+				}
+				case (Commande::BACK_LEFT):{
+
+				}
+				case (Commande::BACK_RIGHT):{
+
+				}
+			}
+			
 		}
 		default:{//Wrong CMD command not found
 			setEntry("Wrong Command Format! Please see Help menu.");
 		};
 	}
-	this->_myContext->save();
-	this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
-	myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
-	this->_myContext->stroke_preserve();
-	this->_myContext->restore();
+	if(CMD.getCmd()!=Commande::CARRE){
+		this->_myContext->save();
+		this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+		myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
+		this->_myContext->stroke_preserve();
+		this->_myContext->restore();
+	}
 
 }
 
@@ -171,7 +254,7 @@ void VueGraphique::setEntry(std::string msg){
 
 //Set des paramètres initiaux du contexte - Appelé dans setDraw()
 void VueGraphique::setContext(int state){
-	if(state){
+	if(!state){
 	this->_myContext = this->myDrawArea.get_window()->create_cairo_context();
 //	this->_myContext->move_to(myDrawArea.getWinWidth()/2,myDrawArea.getWinHeight()/2);
 	myDrawArea.setLastAbsciss(myDrawArea.getWinWidth()/2+myDrawArea.getWidth()/2);

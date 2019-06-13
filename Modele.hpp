@@ -9,7 +9,7 @@ class Modele : public Observable<Commande> {
 
   protected:
 
-    typedef enum ModelState{init,find_inst,find_arg1,find_endCmd,wrong_cmd} state;
+    typedef enum ModelState{init,find_inst,find_arg1,find_arg2,find_arg3,find_endCmd,wrong_cmd} state;
     state _state;
     Commande _decodedCmd;
 
@@ -28,6 +28,7 @@ class Modele : public Observable<Commande> {
     bool stateIsWrongCmd();
 
     int FindFirstArgument(std::string::iterator it);
+    int FindSecondArgument(std::string::iterator it);
     bool FindInstCommand(std::string inst, std::string entry);
     void FindEndCommand(std::string entry);
 };

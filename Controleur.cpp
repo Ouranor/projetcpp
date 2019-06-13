@@ -13,4 +13,5 @@ void Controleur::on_button_enter(){
 //	std::cout << _m->getDecodedCommand() << std::endl;
   _m->commandtoDraw();
   std::cout <<" controleur appelé" <<std::endl;
+  
 }

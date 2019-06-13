@@ -20,7 +20,7 @@ Commande Modele::commandDecoding(std::string entry){
   Commande Cmd;
   setModelState(find_inst);
   std::string::iterator it = entry.begin();
-
+  std::string::iterator it_temp=it;
   while(getModelState() != init){
 
     if(getModelState() == find_inst){
@@ -30,8 +30,15 @@ Commande Modele::commandDecoding(std::string entry){
       else if(FindInstCommand("MB",entry)) Cmd.setCmd(Commande::MB);
       else if(FindInstCommand("MR",entry)) Cmd.setCmd(Commande::MR);
       else if(FindInstCommand("ML",entry)) Cmd.setCmd(Commande::ML);
-      else if(FindInstCommand("ROT",entry)){ 
-        Cmd.setCmd(Commande::ROT);}
+      else if(FindInstCommand("ROT",entry))Cmd.setCmd(Commande::ROT);
+      else if(FindInstCommand("CARRE",entry)){
+        Cmd.setCmd(Commande::CARRE);
+        setModelState(find_inst);
+        if(FindInstCommand("FRONT_LEFT",entry)) Cmd.setDir(Commande::FRONT_LEFT);
+        else if(FindInstCommand("FRONT_RIGHT",entry)) Cmd.setDir(Commande::FRONT_RIGHT);
+        else if(FindInstCommand("BACK_LEFT",entry)) Cmd.setDir(Commande::BACK_LEFT);
+        else if(FindInstCommand("BACK_RIGHT",entry)) Cmd.setDir(Commande::BACK_RIGHT);
+      }
       else setModelState(wrong_cmd);
     }
 
@@ -40,12 +47,19 @@ Commande Modele::commandDecoding(std::string entry){
       switch(Cmd.getCmd())
       {
         case(Commande::ROT):
-         Cmd.setAngle(FindFirstArgument(it));
+         Cmd.setAngle(FindFirstArgument(it_temp));
         // Cmd.setLongueurAbscisse(FindFirstArgument(it));
         // std::cout<<Cmd.getLongueurAbscisse()<< std::endl;
          break;
         default: Cmd.setLenght(FindFirstArgument(it));
       }
+    }
+    if(getModelState()==find_arg2){
+      std::cout << "STATE FIND ARG2" << std::endl;
+      int longueur=FindSecondArgument(it);
+      Cmd.setLongueurAbsciss(longueur);
+      Cmd.setLongueurOrdinate(longueur);
+
     }
 
     if(getModelState() == find_endCmd){
@@ -77,22 +91,50 @@ void Modele::FindEndCommand(std::string entry){
 }
 
 int Modele::FindFirstArgument(std::string::iterator it){
-
+  std::string inst;
   std::string arg1;
-
-  while(isalpha(*it)) it++;
+  while(isalpha(*it)){
+   inst+=*it;
+   it++;
+  }
   while(isspace(*it)) it++;
   while(isdigit(*it)){
     arg1 += *it;
     it++;
   }
+
   std::cout << "ARG1:  " << arg1 << "  ";
   char buffer[arg1.size() + 1];
   strcpy(buffer, arg1.c_str());
+  if(this->FindInstCommand("ROT",inst))
+  {
+    std::cout<<"debut find arg2"<<std::endl;
+    setModelState(find_arg2);
+  }
+  else {
+  setModelState(find_endCmd);
+  }
+  return atoi(buffer);
+}
 
+int Modele::FindSecondArgument(std::string::iterator it){
+  std::string arg2;
+  while(isalpha(*it))it++;
+  while(isspace(*it))it++;
+  while(isdigit(*it))it++;
+  while(isspace(*it))it++;
+  while(isdigit(*it)){
+    arg2 += *it;
+    it++;
+  }
+  std::cout << "ARG2:  " << arg2 << "  ";
+  char buffer[arg2.size() + 1];
+  strcpy(buffer, arg2.c_str());
   setModelState(find_endCmd);
   return atoi(buffer);
 }
+
+
 
 bool Modele::FindInstCommand(std::string inst, std::string entry){
   std::size_t find;

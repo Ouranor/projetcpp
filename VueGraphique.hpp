@@ -30,7 +30,8 @@ class VueGraphique : public Gtk::Window, public Observateur<Commande>{
 		Gtk::TextView aideText;
 		Glib::RefPtr<Gtk::TextBuffer> textBuffer1;
 		std::string line;
-		/* Attribut qui indique si on est dans l'état initial ou après, afin de ne crée le context cairo une seule fois */
+		/* Attribut qui indique si on est dans l'état initial ou après, afin de ne crée le context cairo une seule fois
+		 */
 		int m_state;
 
 	public :

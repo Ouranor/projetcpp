@@ -13,8 +13,8 @@ class Commande{
 
   public:
 
-    typedef enum direction{RIGHT,LEFT,TOP,BOT} dir;
-    typedef enum command{MF,MFL,MB,MR,ML,ROT} cmd;
+    typedef enum direction{FRONT_LEFT,FRONT_RIGHT,BACK_LEFT,BACK_RIGHT} dir;
+    typedef enum command{MF,MFL,MB,MR,ML,ROT,CARRE} cmd;
 
     void setCmd(cmd c){
       this->_cmd = c;
@@ -57,6 +57,14 @@ class Commande{
 
     void setLongueurAbsciss(int x){
       this->_longeurAbsciss=x;
+    }
+
+    Commande::dir getDir() const{
+      return this ->_dir;
+    } 
+
+    void setDir(Commande:: dir d) {
+      this->_dir=d;
     }
     /*
     void afficher(std::ostream &flux) const {
