@@ -14,7 +14,7 @@ class Commande{
   public:
 
     typedef enum direction{FRONT_LEFT,FRONT_RIGHT,BACK_LEFT,BACK_RIGHT} dir;
-    typedef enum command{MF,MFL,MB,MR,ML,ROT,CARRE} cmd;
+    typedef enum command{MF,MFL,MB,MR,ML,ROT,CARRE,CIRCLE} cmd;
 
     void setCmd(cmd c){
       this->_cmd = c;
@@ -78,6 +78,8 @@ class Commande{
     */
 
   private:
+    int _absCircle;
+    int _ordCircle;
     cmd _cmd;
     dir _dir;
     int _lenght;

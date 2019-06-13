@@ -39,6 +39,7 @@ Commande Modele::commandDecoding(std::string entry){
         else if(FindInstCommand("BACK_LEFT",entry)) Cmd.setDir(Commande::BACK_LEFT);
         else if(FindInstCommand("BACK_RIGHT",entry)) Cmd.setDir(Commande::BACK_RIGHT);
       }
+      else if(FindInstCommand("CIRCLE",entry))Cmd.setCmd(Commande::CIRCLE);
       else setModelState(wrong_cmd);
     }
 
@@ -51,6 +52,7 @@ Commande Modele::commandDecoding(std::string entry){
         // Cmd.setLongueurAbscisse(FindFirstArgument(it));
         // std::cout<<Cmd.getLongueurAbscisse()<< std::endl;
          break;
+        // case(Commande::)
         default: Cmd.setLenght(FindFirstArgument(it));
       }
     }
@@ -132,6 +134,9 @@ int Modele::FindSecondArgument(std::string::iterator it){
   strcpy(buffer, arg2.c_str());
   setModelState(find_endCmd);
   return atoi(buffer);
+}
+string Modele::FindCircleArgument(std::string::iterator it){
+  
 }
 
 

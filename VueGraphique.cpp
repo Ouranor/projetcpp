@@ -7,8 +7,9 @@
 # include <math.h>
 #include "Controleur.hpp"
 #include "VueGraphique.hpp"
+# include <list>
 int state=1;
-
+//int sqrt[4][2];
 double sind(double angle)
 {
     double angleradians = angle * M_PI / 180.0f;
@@ -183,8 +184,10 @@ void VueGraphique::setDraw(Commande CMD,int state){
 
 				}
 				case(Commande::FRONT_RIGHT):{
+
 					this->_myContext->save();
 					/*Front line */
+
 					myDrawArea.setCoordinates(myDrawArea.getLastAbsciss()+CMD.getLenght(),myDrawArea.getLastOrdinate());
 					this->_myContext->line_to(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
 					myDrawArea.setLastCoordinates(myDrawArea.getAbsciss(),myDrawArea.getOrdinate());
@@ -211,6 +214,26 @@ void VueGraphique::setDraw(Commande CMD,int state){
 
 				}
 				case (Commande::BACK_LEFT):{
+					int width=myDrawArea.getWidth();
+					int height=myDrawArea.getHeight();
+					const int lesser = std::min(width, height);
+					/*
+					this->_myContext->save();
+  					this->_myContext->arc(width / 3.0, height / 4.0, lesser / 4.0, -(M_PI / 5.0), M_PI);
+  					this->_myContext->close_path();   // line back to start point
+ 				    this->_myContext->set_source_rgb(0.0, 0.8, 0.0);
+  					this->_myContext->fill_preserve();
+  					this->_myContext->restore();  // back to opaque black
+ 				    this->_myContext->stroke();   // outline it
+ 				    */
+ 				    const int xc = width / 2;
+  					const int yc = height / 2;
+ 				    this->_myContext->save();
+  					this->_myContext->arc(xc, yc, lesser / 2.0, 0.0, 2.0 * M_PI); // full circle
+  					this->_myContext->set_source_rgba(0.0, 0.0, 0.8, 0.6);    // partially translucent
+ 				    this->_myContext->fill_preserve();
+  					this->_myContext->restore();  // back to opaque black
+  					this->_myContext->stroke();
 
 				}
 				case (Commande::BACK_RIGHT):{
@@ -287,3 +310,14 @@ int VueGraphique::getState() const{
 void VueGraphique::addDrawCommandListener(Controleur *c){
 	bEnter.signal_clicked().connect(sigc::mem_fun(*c, &Controleur::on_button_enter));
 }
+/*
+void setSqrt(Commande::dir d){
+	switch(d){
+		case(FRONT_RIGHT):{
+			_sqrt.push_back()
+
+
+		}
+	}
+}
+*/
